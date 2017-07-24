@@ -1,5 +1,5 @@
 import { Component , OnInit } from '@angular/core';
-import { FormControl , FormGroup } from '@angular/forms';
+import { FormGroup , FormBuilder } from '@angular/forms';
 
 import { Customer } from './customer';
 
@@ -10,20 +10,21 @@ import { Customer } from './customer';
 export class CustomerComponent  implements OnInit {
     customerForm: FormGroup;
     customer: Customer = new Customer();
+    constructor(private fb: FormBuilder) { }
 
     ngOnInit(): void {
-        this.customerForm = new FormGroup({
+        this.customerForm = this.fb.group({
 
-            lastName : new FormControl(),
-            firstName: new FormControl(),
-            email: new FormControl(),
-            sendCatalog : new FormControl(true),
-            addressType : new FormControl(),
-            street1 : new FormControl(),
-            street2 : new FormControl(),
-            city : new FormControl(),
-            state: new FormControl(),
-            zip : new FormControl(),
+            lastName: '',
+            firstName: '',
+            email: '',
+            sendCatalog : 'true',
+            addressType : '',
+            street1 : '',
+            street2 : '',
+            city : '',
+            state: '',
+            zip : '',
         });
     }
 
