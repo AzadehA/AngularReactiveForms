@@ -30,6 +30,26 @@ var CustomerComponent = (function () {
         console.log(this.customerForm);
         console.log('Saved: ' + JSON.stringify(this.customerForm.value));
     };
+    CustomerComponent.prototype.populateTestData = function () {
+        this.customerForm.setValue({
+            lastName: 'John',
+            firstName: 'Smith',
+            email: 'test@test.com',
+            sendCatalog: true,
+            addressType: 'home',
+            street1: '123 10 str',
+            street2: '',
+            city: 'Austin',
+            state: 'tx',
+            zip: '78765'
+        });
+    };
+    CustomerComponent.prototype.partialyPopulateTestData = function () {
+        this.customerForm.patchValue({
+            lastName: 'John',
+            firstName: 'Smith',
+        });
+    };
     return CustomerComponent;
 }());
 CustomerComponent = __decorate([
