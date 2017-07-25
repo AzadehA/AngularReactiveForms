@@ -18,9 +18,9 @@ var CustomerComponent = (function () {
     }
     CustomerComponent.prototype.ngOnInit = function () {
         this.customerForm = this.fb.group({
-            lastName: '',
-            firstName: '',
-            email: '',
+            lastName: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3), forms_1.Validators.maxLength(20)]],
+            firstName: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3)]],
+            email: ['', [forms_1.Validators.required, forms_1.Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
             sendCatalog: 'true',
             addressType: '',
             street1: '',
