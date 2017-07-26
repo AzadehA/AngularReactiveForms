@@ -18,13 +18,15 @@ export class CustomerComponent  implements OnInit {
             lastName: ['',[ Validators.required , Validators.minLength(3), Validators.maxLength(20)]],
             firstName: ['',[ Validators.required , Validators.minLength(3) ]],
             email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
-            sendCatalog : 'true',
+            phone:'',
+            sendCatalog: 'true',
             addressType : '',
             street1 : '',
             street2 : '',
             city : '',
             state: '',
-            zip : '',
+            zip: '',
+            notification: 'email'
         });
     }
 
@@ -44,7 +46,9 @@ export class CustomerComponent  implements OnInit {
             street2 : '',
             city : 'Austin',
             state: 'tx',
-            zip : '78765'
+            zip: '78765',
+            phone: '5123458769',
+            notification: 'email'
         });
     }
 
@@ -54,6 +58,17 @@ export class CustomerComponent  implements OnInit {
             firstName: 'Smith',
                      
         });
+    }
+
+    setNotification(notifyBy: string): void {
+        const phoneControl = this.customerForm.get('phone');
+        if (notifyBy === 'text')
+        {
+            phoneControl.setValidators(Validators.required); 
+        }
+        else
+        { phoneControl.clearValidators(); }
+        phoneControl.updateValueAndValidity();
     }
 }
 

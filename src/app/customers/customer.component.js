@@ -21,6 +21,7 @@ var CustomerComponent = (function () {
             lastName: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3), forms_1.Validators.maxLength(20)]],
             firstName: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3)]],
             email: ['', [forms_1.Validators.required, forms_1.Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
+            phone: '',
             sendCatalog: 'true',
             addressType: '',
             street1: '',
@@ -28,6 +29,7 @@ var CustomerComponent = (function () {
             city: '',
             state: '',
             zip: '',
+            notification: 'email'
         });
     };
     CustomerComponent.prototype.save = function () {
@@ -45,7 +47,9 @@ var CustomerComponent = (function () {
             street2: '',
             city: 'Austin',
             state: 'tx',
-            zip: '78765'
+            zip: '78765',
+            phone: '5123458769',
+            notification: 'email'
         });
     };
     CustomerComponent.prototype.partialyPopulateTestData = function () {
@@ -53,6 +57,16 @@ var CustomerComponent = (function () {
             lastName: 'John',
             firstName: 'Smith',
         });
+    };
+    CustomerComponent.prototype.setNotification = function (notifyBy) {
+        var phoneControl = this.customerForm.get('phone');
+        if (notifyBy === 'text') {
+            phoneControl.setValidators(forms_1.Validators.required);
+        }
+        else {
+            phoneControl.clearValidators();
+        }
+        phoneControl.updateValueAndValidity();
     };
     return CustomerComponent;
 }());
