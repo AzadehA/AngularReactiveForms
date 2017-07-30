@@ -1,7 +1,14 @@
 import { Component , OnInit } from '@angular/core';
-import { FormGroup , FormBuilder, Validators } from '@angular/forms';
+import { FormGroup , FormBuilder, Validators , AbstractControl } from '@angular/forms';
 
 import { Customer } from './customer';
+
+function ratingRange(c: AbstractControl): { [key: string]: boolean } | null { 
+    if (c.value != undefined && (isNaN(c.value) || c.value < 1 || c.value > 5)) {
+        return { 'range': true };
+    }
+     return null;
+}
 
 @Component({
     selector: 'my-signup',
@@ -26,7 +33,8 @@ export class CustomerComponent  implements OnInit {
             city : '',
             state: '',
             zip: '',
-            notification: 'email'
+            notification: 'email',
+            rating: ['', ratingRange]
         });
     }
 
@@ -48,7 +56,8 @@ export class CustomerComponent  implements OnInit {
             state: 'tx',
             zip: '78765',
             phone: '5123458769',
-            notification: 'email'
+            notification: 'email',
+            rating: 2
         });
     }
 

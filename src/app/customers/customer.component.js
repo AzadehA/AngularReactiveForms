@@ -11,6 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var customer_1 = require("./customer");
+function ratingRange(c) {
+    if (c.value != undefined && (isNaN(c.value) || c.value < 1 || c.value > 5)) {
+        return { 'range': true };
+    }
+    return null;
+}
 var CustomerComponent = (function () {
     function CustomerComponent(fb) {
         this.fb = fb;
@@ -29,7 +35,8 @@ var CustomerComponent = (function () {
             city: '',
             state: '',
             zip: '',
-            notification: 'email'
+            notification: 'email',
+            rating: ['', ratingRange]
         });
     };
     CustomerComponent.prototype.save = function () {
@@ -49,7 +56,8 @@ var CustomerComponent = (function () {
             state: 'tx',
             zip: '78765',
             phone: '5123458769',
-            notification: 'email'
+            notification: 'email',
+            rating: 2
         });
     };
     CustomerComponent.prototype.partialyPopulateTestData = function () {
