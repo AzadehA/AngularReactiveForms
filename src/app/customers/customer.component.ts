@@ -3,8 +3,23 @@ import { FormGroup , FormBuilder, Validators , AbstractControl, ValidatorFn } fr
 
 import { Customer } from './customer';
 
-function ratingRange(min: number, max: number): validatorFn {
-    return (c: AbstractControl): { [key: string]: boolean } | null => { 
+function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null 
+{
+    let emailControl = c.get('email');
+    let confirmEmailControl = c.get('confirmEmail');
+    if (emailControl.pristine || confirmEmailControl.pristine)
+    {
+        return null;
+    }
+    if (emailControl.value === confirmEmailControl.value) {
+        return null;
+    }
+
+    return {match: true}
+} 
+
+function ratingRange(min: number, max: number): ValidatorFn {
+    return (c: AbstractControl) : { [key: string]: boolean } | null => { 
         if (c.value != undefined && (isNaN(c.value) || c.value < min || c.value > max)) {
             return { 'range': true };
         }
@@ -24,10 +39,13 @@ export class CustomerComponent  implements OnInit {
     ngOnInit(): void {
         this.customerForm = this.fb.group({
 
-            lastName: ['',[ Validators.required , Validators.minLength(3), Validators.maxLength(20)]],
-            firstName: ['',[ Validators.required , Validators.minLength(3) ]],
-            email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
-            phone:'',
+            lastName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+            firstName: ['', [Validators.required, Validators.minLength(3)]],
+            emailGroup: this.fb.group({
+                email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+')]],
+                confirmEmail: ['', Validators.required]
+            }, { validator: emailMatcher}),
+            phone: '',
             sendCatalog: 'true',
             addressType : '',
             street1 : '',
