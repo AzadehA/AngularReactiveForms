@@ -36,6 +36,7 @@ var CustomerComponent = (function () {
         this.customer = new customer_1.Customer();
     }
     CustomerComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.customerForm = this.fb.group({
             lastName: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3), forms_1.Validators.maxLength(20)]],
             firstName: ['', [forms_1.Validators.required, forms_1.Validators.minLength(3)]],
@@ -54,6 +55,7 @@ var CustomerComponent = (function () {
             notification: 'email',
             rating: ['', ratingRange(1, 5)]
         });
+        this.customerForm.get('notification').valueChanges.subscribe(function (value) { return _this.setNotification(value); });
     };
     CustomerComponent.prototype.save = function () {
         console.log(this.customerForm);
