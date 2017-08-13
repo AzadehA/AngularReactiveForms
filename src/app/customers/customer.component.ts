@@ -34,6 +34,13 @@ function ratingRange(min: number, max: number): ValidatorFn {
 export class CustomerComponent  implements OnInit {
     customerForm: FormGroup;
     customer: Customer = new Customer();
+    emailMessage: string;
+
+    private validationMEssages = {
+        required: 'Please enter email address',
+        pattern: 'Please enter a valid email address'
+    }
+
     constructor(private fb: FormBuilder) { }
 
     ngOnInit(): void {
@@ -58,6 +65,10 @@ export class CustomerComponent  implements OnInit {
         });
 
         this.customerForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
+
+        //validation message part 
+        const emailControle = this.customerForm.get('emailGroup.email');
+        emailControle.valueChanges.subscribe(value => this.setMessage(emailControle));
     }
 
     save() {
@@ -100,6 +111,14 @@ export class CustomerComponent  implements OnInit {
         else
         { phoneControl.clearValidators(); }
         phoneControl.updateValueAndValidity();
+    }
+
+    setMessage(c : AbstractControl): void {
+        this.emailMessage = '';
+        if ((c.touched || c.dirty) && c.errors) {
+            this.emailMessage = Object.keys(c.errors).map(key => this.validationMEssages[key]).join('  ');
+        }
+
     }
 }
 

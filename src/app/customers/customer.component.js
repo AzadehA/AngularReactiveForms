@@ -34,6 +34,10 @@ var CustomerComponent = (function () {
     function CustomerComponent(fb) {
         this.fb = fb;
         this.customer = new customer_1.Customer();
+        this.validationMEssages = {
+            required: 'Please enter email address',
+            pattern: 'Please enter a valid email address'
+        };
     }
     CustomerComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -56,6 +60,9 @@ var CustomerComponent = (function () {
             rating: ['', ratingRange(1, 5)]
         });
         this.customerForm.get('notification').valueChanges.subscribe(function (value) { return _this.setNotification(value); });
+        //validation message part 
+        var emailControle = this.customerForm.get('emailGroup.email');
+        emailControle.valueChanges.subscribe(function (value) { return _this.setMessage(emailControle); });
     };
     CustomerComponent.prototype.save = function () {
         console.log(this.customerForm);
@@ -93,6 +100,13 @@ var CustomerComponent = (function () {
             phoneControl.clearValidators();
         }
         phoneControl.updateValueAndValidity();
+    };
+    CustomerComponent.prototype.setMessage = function (c) {
+        var _this = this;
+        this.emailMessage = '';
+        if ((c.touched || c.dirty) && c.errors) {
+            this.emailMessage = Object.keys(c.errors).map(function (key) { return _this.validationMEssages[key]; }).join('  ');
+        }
     };
     return CustomerComponent;
 }());
