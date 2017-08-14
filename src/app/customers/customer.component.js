@@ -121,6 +121,9 @@ var CustomerComponent = (function () {
             zip: '',
         });
     };
+    CustomerComponent.prototype.addAddress = function () {
+        this.addresses.push(this.buildAddress());
+    };
     return CustomerComponent;
 }());
 CustomerComponent = __decorate([

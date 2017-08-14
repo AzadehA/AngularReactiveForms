@@ -37,7 +37,7 @@ export class CustomerComponent  implements OnInit {
     customer: Customer = new Customer();
     emailMessage: string;
 
-    get addresses(): FormArray {
+    get addresses() {
         return <FormArray>this.customerForm.get('addresses');
     }
 
@@ -130,6 +130,10 @@ export class CustomerComponent  implements OnInit {
             state: '',
             zip: '',
         });
+    }
+
+    addAddress(): void {
+        this.addresses.push(this.buildAddress());
     }
 }
 
