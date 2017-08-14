@@ -40,6 +40,13 @@ var CustomerComponent = (function () {
             pattern: 'Please enter a valid email address'
         };
     }
+    Object.defineProperty(CustomerComponent.prototype, "addresses", {
+        get: function () {
+            return this.customerForm.get('addresses');
+        },
+        enumerable: true,
+        configurable: true
+    });
     CustomerComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.customerForm = this.fb.group({
@@ -51,12 +58,7 @@ var CustomerComponent = (function () {
             }, { validator: emailMatcher }),
             phone: '',
             sendCatalog: 'true',
-            addressType: '',
-            street1: '',
-            street2: '',
-            city: '',
-            state: '',
-            zip: '',
+            addresses: this.fb.array([this.buildAddress()]),
             notification: 'email',
             rating: ['', ratingRange(1, 5)]
         });
@@ -108,6 +110,16 @@ var CustomerComponent = (function () {
         if ((c.touched || c.dirty) && c.errors) {
             this.emailMessage = Object.keys(c.errors).map(function (key) { return _this.validationMEssages[key]; }).join('  ');
         }
+    };
+    CustomerComponent.prototype.buildAddress = function () {
+        return this.fb.group({
+            addressType: 'home',
+            street1: '',
+            street2: '',
+            city: '',
+            state: '',
+            zip: '',
+        });
     };
     return CustomerComponent;
 }());
